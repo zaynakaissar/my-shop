@@ -1,12 +1,12 @@
 const products = [
   {
     name: "cherry Beaded Bracelet",
-    image: "images/braclets.jpg",
+    image: "braclets.jpg",
     price: "5.00 MAD"
   },
   {
     name: "beaded braclet in black and white",
-    image: "images/beadsflower.jpg",
+    image: "beadsflower.jpg",
     price: "8.00 MAD"
   },
 ];
