@@ -7,14 +7,83 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perzia - Handmade Jewelry</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
   <header>
-    <h1>perzia</h1>
+    <h1>Perzia</h1>
     <nav>
       <a href="#about">About</a>
       <a href="#shop">Shop</a>
       <a href="#contact">Contact</a>
     </nav>
+    <!-- زر سلة المشتريات -->
+    <div class="cart-icon" onclick="toggleCart()">
+      🛒 <span id="cart-count">0</span>
+    </div>
   </header>
+
+  <!-- نافذة تفاصيل المنتج -->
+  <div id="product-detail" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeProductDetail()">&times;</span>
+      <img id="detail-image" src="" alt="">
+      <h2 id="detail-name"></h2>
+      <p id="detail-price"></p>
+      <p id="detail-description"></p>
+      <button onclick="addToCart(currentProductId)">Add to Cart</button>
+    </div>
+  </div>
+
+  <section class="hero">
+    <h2>Handmade Jewelry with Heart</h2>
+    <p>Discover one-of-a-kind pieces made with love in El Jadida</p>
+    <button class="btn" onclick="scrollToShop()">Shop Now</button>
+  </section>
+
+  <!-- لائحة المجموعات -->
+  <section id="shop">
+    <h3>Our Collections</h3>
+    <button onclick="showCollection('rings')">Rings</button>
+    <button onclick="showCollection('accessories')">Accessories</button>
+    <button onclick="showCollection('necklaces')">Necklaces</button>
+    <button onclick="showCollection('phone-accessories')">Phone Accessories</button>
+    <div class="products" id="productList">
+      <!-- المنتجات ستظهر هنا -->
+    </div>
+  </section>
+
+  <section id="contact">
+    <h3>Contact</h3>
+    <p>Want to order or have questions? DM me on Instagram or send a message below!</p>
+    <a href="https://instagram.com/perzia.lina" target="_blank">
+      <button class="btn"><i class="fab fa-instagram"></i></button>
+    </a>
+    <a href="https://www.tiktok.com/@perzia.lina" target="_blank">
+      <button class="btn"><i class="fab fa-tiktok"></i></button>
+    </a>
+  </section>
+
+  <section id="about">
+    <h3>About Me</h3>
+    <p>I'm Zaynab, and I started this journey to bring my love of beaded crafts to life. Each piece is carefully made by hand, inspired by tradition and modern style.</p>
+  </section>
+
+  <footer>
+    &copy; <span id="year"></span> Perzia. All rights reserved.
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
+
 
   <section class="hero">
     <h2>Handmade Jewelry with love</h2>
