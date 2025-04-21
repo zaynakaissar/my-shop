@@ -3,35 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Perzia</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Perzia - Handmade Jewelry</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    #detail-image {
+      width: 100%;
+      max-width: 250px;
+      height: auto;
+      display: block;
+      margin: 0 auto 1rem;
+      border-radius: 10px;
+    }
+    .modal-content button {
+      background-color: #f06292;
+      color: white;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      display: block;
+      margin: 1rem auto 0;
+    }
+    .modal-content button:hover {
+      background-color: #ec407a;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>Perzia</h1>
+    <h1>PERZIA</h1>
     <nav>
       <a href="#about">About</a>
       <a href="#shop">Shop</a>
       <a href="#contact">Contact</a>
     </nav>
-    <!-- زر سلة المشتريات -->
     <div class="cart-icon" onclick="toggleCart()">
       🛒 <span id="cart-count">0</span>
     </div>
   </header>
 
-  <!-- نافذة تفاصيل المنتج -->
-  <div id="product-detail" class="modal">
+  <!-- Product Detail Modal -->
+  <div id="product-detail" class="modal" style="display:none;">
     <div class="modal-content">
       <span class="close" onclick="closeProductDetail()">&times;</span>
       <img id="detail-image" src="" alt="">
@@ -42,30 +57,128 @@
     </div>
   </div>
 
-   <section class="hero">
-    <h2>Handmade Jewelry with love</h2>
+  <!-- Hero Section -->
+  <section class="hero">
+    <h2>Handmade Jewelry with Love</h2>
     <p>Discover one-of-a-kind pieces made with love in El Jadida</p>
     <button class="btn" onclick="scrollToShop()">Shop Now</button>
   </section>
+
+  <!-- Shop Section -->
   <section id="shop">
     <h3>Our Collection</h3>
     <div class="products" id="productList"></div>
   </section>
+
+  <!-- Cart Section -->
+  <section class="cart" id="cart" style="display:none;">
+    <h3>Your Cart</h3>
+    <ul id="cart-items"></ul>
+    <p>Total: <span id="cart-total">0.00</span> MAD</p>
+    <button class="btn" onclick="checkout()">Proceed to Payment</button>
+  </section>
+
+  <!-- Contact & About Section -->
   <section id="contact">
-        <h3>About Me</h3>
-        <p>Inspired by simplicity and elegance, each piece is thoughtfully handcrafted to celebrate individuality and beauty in everyday moments. Combining quality materials with timeless design, this collection brings a touch of charm to every style.
-        </p>
+    <h3>About Me</h3>
+    <p>Inspired by simplicity and elegance, each piece is thoughtfully handcrafted to celebrate individuality and beauty in everyday moments. Combining quality materials with timeless design, this collection brings a touch of charm to every style.</p>
     <h3>Contact</h3>
     <p>Want to order or have questions? DM me on Instagram or send a message below!</p>
     <a href="https://instagram.com/perzia.lina" target="_blank">
-      <button class="btn"><i class="fab fa-instagram"></i></button>
+      <button class="btn"><i class="fab fa-instagram"></i> </button>
     </a>
   </section>
 
+  <!-- Footer -->
   <footer>
     &copy; <span id="year"></span> Perzia. All rights reserved.
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+    const products = [
+      {
+        id: 0,
+        name: "Cherry Beaded Bracelet",
+        image: "images/braclets.jpg",
+        price: 5.00,
+        description: "A cute cherry-style bracelet made with love."
+      },
+      {
+        id: 1,
+        name: "Black & White Beads Flower Bracelet",
+        image: "images/beadsflower.jpg",
+        price: 8.00,
+        description: "Elegant black and white floral beaded bracelet."
+      },
+    ];
+
+    const cart = [];
+    let currentProductId = null;
+
+    const productList = document.getElementById('productList');
+    const cartList = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
+    const cartCount = document.getElementById('cart-count');
+
+    products.forEach(product => {
+      const card = document.createElement('div');
+      card.className = 'product';
+      card.innerHTML = `
+        <img src="${product.image}" alt="${product.name}" onclick="showProductDetail(${product.id})" />
+        <h4>${product.name}</h4>
+        <p>${product.price.toFixed(2)} MAD</p>
+      `;
+      productList.appendChild(card);
+    });
+
+    function showProductDetail(id) {
+      const product = products[id];
+      currentProductId = id;
+      document.getElementById("detail-image").src = product.image;
+      document.getElementById("detail-name").textContent = product.name;
+      document.getElementById("detail-price").textContent = product.price.toFixed(2) + " MAD";
+      document.getElementById("detail-description").textContent = product.description;
+      document.getElementById("product-detail").style.display = "block";
+    }
+
+    function closeProductDetail() {
+      document.getElementById("product-detail").style.display = "none";
+    }
+
+    function addToCart(id) {
+      const product = products[id];
+      cart.push(product);
+      updateCart();
+      closeProductDetail();
+    }
+
+    function updateCart() {
+      cartList.innerHTML = "";
+      let total = 0;
+      cart.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.name} - ${item.price.toFixed(2)} MAD`;
+        cartList.appendChild(li);
+        total += item.price;
+      });
+      cartTotal.textContent = total.toFixed(2);
+      cartCount.textContent = cart.length;
+    }
+
+    function toggleCart() {
+      const cartSection = document.getElementById("cart");
+      cartSection.style.display = cartSection.style.display === "none" ? "block" : "none";
+    }
+
+    function scrollToShop() {
+      document.getElementById("shop").scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function checkout() {
+      alert("Thank you for your purchase! We'll contact you via Instagram for payment and shipping details.");
+    }
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
